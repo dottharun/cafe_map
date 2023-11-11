@@ -1,12 +1,14 @@
 import "dotenv/config";
 import express from "express";
 import * as db from "./db";
+import cors from "cors";
 
 // import morgan from "morgan";
 
 const app = express();
 
 //Middleware
+app.use(cors());
 app.use(express.json());
 
 //Routes
@@ -19,8 +21,9 @@ app.get("/api/v1/restaurants", async (req, res) => {
   //db query
   try {
     const results = await db.query(`SELECT * FROM restaurants`);
-    console.log(results);
-    console.log(results.rows);
+    console.log(`Success got all restaurants`);
+    // console.log(results);
+    console.log(typeof results.rows[0].id);
 
     res.status(200).json({
       status: "success",
@@ -69,6 +72,7 @@ app.post("/api/v1/restaurants", async (req, res) => {
       `INSERT INTO restaurants (name, location, price_range) VALUES ($1, $2, $3) RETURNING *`,
       [req.body.name, req.body.location, req.body.price_range]
     );
+    //only one restaurant is returned above no need to worry (as an array)
 
     console.log(result);
 

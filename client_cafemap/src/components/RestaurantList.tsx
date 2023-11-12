@@ -2,21 +2,10 @@ import { useContext, useEffect } from "react";
 import { z } from "zod";
 import { RestaurantsContext } from "../context/RestaurantsContext";
 import RestaurantFinder from "../apis/RestaurantFinder";
+import { useNavigate } from "react-router-dom";
+import RestaurantSchema from "../types/RestaurantSchema";
 
-const RestaurantsArraySchema = z.array(
-  z.object({
-    id: z.number(),
-    location: z.string(),
-    name: z.string(),
-    price_range: z.union([
-      z.literal(1),
-      z.literal(2),
-      z.literal(3),
-      z.literal(4),
-      z.literal(5),
-    ]),
-  })
-);
+const RestaurantsArraySchema = z.array(RestaurantSchema);
 
 const headings = [
   "Restaurant",
@@ -30,7 +19,9 @@ const headings = [
 const RestaurantList = () => {
   const { restaurants, setRestaurants } = useContext(RestaurantsContext);
 
-  //inital fetch of restaurant
+  const navigate = useNavigate();
+
+  //inital fetch of all restaurants
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -51,7 +42,12 @@ const RestaurantList = () => {
   }, [setRestaurants]);
 
   //deleting a restaurant
-  const handleDelete = async (restaurantId: number) => {
+  const handleDelete = async (
+    e: React.MouseEvent<HTMLButtonElement>,
+    restaurantId: number
+  ) => {
+    e.stopPropagation();
+
     try {
       const response = await RestaurantFinder.delete(`/${restaurantId}`);
       console.log(response);
@@ -62,6 +58,19 @@ const RestaurantList = () => {
     } catch (err) {
       console.log(err);
     }
+  };
+
+  const handleUpdate = (
+    e: React.MouseEvent<HTMLButtonElement>,
+    restaurantId: number
+  ) => {
+    e.stopPropagation();
+
+    navigate(`/restaurants/${restaurantId}/update`);
+  };
+
+  const handleRestaurantSelect = (restaurantId: number) => {
+    navigate(`/restaurants/${restaurantId}`);
   };
 
   return (
@@ -80,16 +89,21 @@ const RestaurantList = () => {
         <tbody className="bg-slate-500">
           {restaurants
             ? restaurants.map((restaurant) => (
-                <tr key={restaurant.id}>
+                <tr
+                  key={restaurant.id}
+                  onClick={() => handleRestaurantSelect(restaurant.id)}
+                >
                   <td>{restaurant.name}</td>
                   <td>{restaurant.location}</td>
                   <td>{"$".repeat(restaurant.price_range)}</td>
                   <td>ratings</td>
                   <td>
-                    <button>Update</button>
+                    <button onClick={(e) => handleUpdate(e, restaurant.id)}>
+                      Update
+                    </button>
                   </td>
                   <td>
-                    <button onClick={() => handleDelete(restaurant.id)}>
+                    <button onClick={(e) => handleDelete(e, restaurant.id)}>
                       Delete
                     </button>
                   </td>

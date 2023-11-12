@@ -1,5 +1,11 @@
+import UpdateRestaurant from "../components/UpdateRestaurant";
+
 const UpdatePage = () => {
-  return <div>UpdatePage</div>;
+  return (
+    <>
+      <UpdateRestaurant />
+    </>
+  );
 };
 
 export default UpdatePage;

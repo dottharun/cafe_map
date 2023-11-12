@@ -1,20 +1,7 @@
 import { useContext, useState } from "react";
 import RestaurantFinder from "../apis/RestaurantFinder";
-import { z } from "zod";
 import { RestaurantsContext } from "../context/RestaurantsContext";
-
-const RestaurantSchema = z.object({
-  id: z.number(),
-  location: z.string(),
-  name: z.string(),
-  price_range: z.union([
-    z.literal(1),
-    z.literal(2),
-    z.literal(3),
-    z.literal(4),
-    z.literal(5),
-  ]),
-});
+import RestaurantSchema from "../types/RestaurantSchema";
 
 const AddRestaurant = () => {
   const { addRestaurant } = useContext(RestaurantsContext);

@@ -6,12 +6,18 @@ type ContextType = {
   restaurants: Restaurant[];
   setRestaurants: React.Dispatch<React.SetStateAction<Restaurant[]>>;
   addRestaurant: (newRestaurant: Restaurant) => void;
+  selectedRestaurant: Restaurant;
+  setSelectedRestaurant: React.Dispatch<React.SetStateAction<Restaurant>>;
 };
 
 const RestaurantsContext = createContext<ContextType>(null!);
 
 const RestaurantsContextProvider = (props: { children: JSX.Element }) => {
   const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
+
+  const [selectedRestaurant, setSelectedRestaurant] = useState<Restaurant>(
+    null!
+  );
 
   const addRestaurant = (newRestaurant: Restaurant) => {
     setRestaurants([...restaurants, newRestaurant]);
@@ -23,6 +29,8 @@ const RestaurantsContextProvider = (props: { children: JSX.Element }) => {
         restaurants: restaurants,
         setRestaurants: setRestaurants,
         addRestaurant: addRestaurant,
+        selectedRestaurant: selectedRestaurant,
+        setSelectedRestaurant: setSelectedRestaurant,
       }}
     >
       {props.children}

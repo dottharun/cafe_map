@@ -1,11 +1,8 @@
 import { useContext, useEffect } from "react";
-import { z } from "zod";
 import { RestaurantsContext } from "../context/RestaurantsContext";
 import RestaurantFinder from "../apis/RestaurantFinder";
 import { useNavigate } from "react-router-dom";
-import RestaurantSchema from "../types/RestaurantSchema";
-
-const RestaurantsArraySchema = z.array(RestaurantSchema);
+import { RestaurantsArraySchema } from "../types/RestaurantSchema";
 
 const headings = [
   { id: 1, name: "Restaurant" },

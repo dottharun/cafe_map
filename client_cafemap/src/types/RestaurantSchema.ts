@@ -13,4 +13,7 @@ const RestaurantSchema = z.object({
   ]),
 });
 
+const RestaurantsArraySchema = z.array(RestaurantSchema);
+
 export default RestaurantSchema;
+export { RestaurantsArraySchema };

@@ -2,32 +2,47 @@ import { useContext, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { RestaurantsContext } from "../context/RestaurantsContext";
 import RestaurantFinder from "../apis/RestaurantFinder";
-import RestaurantSchema from "../types/RestaurantSchema";
+import Reviews from "../components/Reviews";
+import AddReviewForm from "../components/AddReviewForm";
+import RestaurantDataSchema from "../types/RestaurantData";
 
 const RestaurantDetailPage = () => {
   const { id } = useParams();
-  const { selectedRestaurant, setSelectedRestaurant } =
+  const { selectedRestaurantData, setSelectedRestaurantData } =
     useContext(RestaurantsContext);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await RestaurantFinder.get(`/${id}`);
-        const ParsedRestaurant = RestaurantSchema.parse(
-          response.data.data.restaurant
+        console.log(response);
+
+        const ParsedRestaurantData = RestaurantDataSchema.parse(
+          response.data.data
         );
 
-        console.log(ParsedRestaurant);
-        setSelectedRestaurant(ParsedRestaurant);
+        setSelectedRestaurantData(ParsedRestaurantData);
       } catch (error) {
         console.log(error);
       }
     };
 
     fetchData();
-  }, [id, setSelectedRestaurant]);
+  }, [id, setSelectedRestaurantData]);
 
-  return <div>{selectedRestaurant && selectedRestaurant.name}</div>;
+  return (
+    <>
+      {selectedRestaurantData && (
+        <div className="p-4">
+          <h1 className="flex justify-center pb-4">
+            {selectedRestaurantData.restaurant.name}
+          </h1>
+          <Reviews reviews={selectedRestaurantData.reviews} />
+          <AddReviewForm />
+        </div>
+      )}
+    </>
+  );
 };
 
 export default RestaurantDetailPage;

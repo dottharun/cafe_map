@@ -1,13 +1,21 @@
 import { createContext, useState } from "react";
 
 import { Restaurant } from "../types/Restaurant";
+import Review from "../types/Review";
+
+type RestaurantData = {
+  restaurant: Restaurant;
+  reviews: Review[];
+};
 
 type ContextType = {
   restaurants: Restaurant[];
   setRestaurants: React.Dispatch<React.SetStateAction<Restaurant[]>>;
   addRestaurant: (newRestaurant: Restaurant) => void;
-  selectedRestaurant: Restaurant;
-  setSelectedRestaurant: React.Dispatch<React.SetStateAction<Restaurant>>;
+  selectedRestaurantData: RestaurantData;
+  setSelectedRestaurantData: React.Dispatch<
+    React.SetStateAction<RestaurantData>
+  >;
 };
 
 const RestaurantsContext = createContext<ContextType>(null!);
@@ -15,9 +23,8 @@ const RestaurantsContext = createContext<ContextType>(null!);
 const RestaurantsContextProvider = (props: { children: JSX.Element }) => {
   const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
 
-  const [selectedRestaurant, setSelectedRestaurant] = useState<Restaurant>(
-    null!
-  );
+  const [selectedRestaurantData, setSelectedRestaurantData] =
+    useState<RestaurantData>(null!);
 
   const addRestaurant = (newRestaurant: Restaurant) => {
     setRestaurants([...restaurants, newRestaurant]);
@@ -29,8 +36,8 @@ const RestaurantsContextProvider = (props: { children: JSX.Element }) => {
         restaurants: restaurants,
         setRestaurants: setRestaurants,
         addRestaurant: addRestaurant,
-        selectedRestaurant: selectedRestaurant,
-        setSelectedRestaurant: setSelectedRestaurant,
+        selectedRestaurantData: selectedRestaurantData,
+        setSelectedRestaurantData: setSelectedRestaurantData,
       }}
     >
       {props.children}

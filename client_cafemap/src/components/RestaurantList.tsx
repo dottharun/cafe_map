@@ -8,12 +8,12 @@ import RestaurantSchema from "../types/RestaurantSchema";
 const RestaurantsArraySchema = z.array(RestaurantSchema);
 
 const headings = [
-  "Restaurant",
-  "Location",
-  "Price range",
-  "Ratings",
-  "Edit",
-  "Delete",
+  { id: 1, name: "Restaurant" },
+  { id: 2, name: "Location" },
+  { id: 3, name: "Price range" },
+  { id: 4, name: "Ratings" },
+  { id: 5, name: "Edit" },
+  { id: 6, name: "Delete" },
 ];
 
 const RestaurantList = () => {
@@ -80,7 +80,9 @@ const RestaurantList = () => {
         <thead>
           <tr className="bg-red-700">
             {headings.map((heading) => (
-              <th className="h-10 w-32 p-1">{heading}</th>
+              <th key={heading.id} className="h-10 w-32 p-1">
+                {heading.name}
+              </th>
             ))}
           </tr>
         </thead>

@@ -77,12 +77,13 @@ app.post("/api/v1/restaurants", async (req, res) => {
   //db query
   try {
     const result = await db.query(
-      `INSERT INTO restaurants (name, location, price_range) VALUES ($1, $2, $3) RETURNING *`,
+      `INSERT INTO restaurants (name, location, price_range) 
+           VALUES ($1, $2, $3) RETURNING *`,
       [req.body.name, req.body.location, req.body.price_range]
     );
     //only one restaurant is returned above no need to worry (as an array)
 
-    console.log(result);
+    console.log(result.rows[0]);
 
     res.status(201).json({
       status: "success",
@@ -104,7 +105,8 @@ app.put("/api/v1/restaurants/:id", async (req, res) => {
   //db query
   try {
     const results = await db.query(
-      `UPDATE restaurants SET name = $1, location = $2, price_range = $3 WHERE id = $4 RETURNING *`,
+      `UPDATE restaurants SET name = $1, location = $2, price_range = $3 
+           WHERE id = $4 RETURNING *`,
       [req.body.name, req.body.location, req.body.price_range, req.params.id]
     );
 
@@ -144,6 +146,30 @@ app.delete("/api/v1/restaurants/:id", async (req, res) => {
     });
   } catch (error) {
     console.log(`deleting an restaurant failed`, error);
+  }
+});
+
+//create a new review
+app.post("/api/v1/restaurants/:id/addreview", async (req, res) => {
+  console.log("adding a review", typeof req, typeof res);
+
+  //db query
+  try {
+    const results = await db.query(
+      `INSERT INTO reviews (restaurant_id, name, review, rating) 
+           VALUES ($1, $2, $3, $4) RETURNING *`,
+      [req.params.id, req.body.name, req.body.review, req.body.rating]
+    );
+    console.log(results.rows[0]);
+
+    res.status(201).json({
+      status: "success",
+      data: {
+        review: results.rows[0],
+      },
+    });
+  } catch (error) {
+    console.log(error);
   }
 });
 

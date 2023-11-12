@@ -3,7 +3,6 @@
 -- create database CREATE DATABASE database_name;
 -- connect to a database \c mydatabasename
 -- list all the tables in a database \d
-
 --practice
 CREATE TABLE products(
     id INT,
@@ -20,7 +19,7 @@ ALTER TABLE products
 
 DROP DATABASE practice;
 
--- cafemap
+-- cafemap restaurants table
 CREATE TABLE restaurants(
     id BIGSERIAL NOT NULL PRIMARY KEY,
     name VARCHAR(50) NOT NULL,
@@ -34,3 +33,11 @@ INSERT INTO restaurants(name, location, price_range)
 INSERT INTO restaurants(name, location, price_range)
     VALUES ('pizza hut', 'vegas', 2);
 
+-- cafemap reviews table
+CREATE TABLE reviews(
+    id BIGSERIAL NOT NULL PRIMARY KEY,
+    restaurant_id BIGINT NOT NULL REFERENCES restaurants(id),
+    name VARCHAR(50) NOT NULL,
+    review TEXT NOT NULL,
+    rating INT NOT NULL CHECK (rating >= 1 AND rating <= 5)
+);

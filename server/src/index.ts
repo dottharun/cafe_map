@@ -37,23 +37,31 @@ app.get("/api/v1/restaurants", async (req, res) => {
   }
 });
 
-//get an individual Restaurant
+//get an individual Restaurant and its reviews
 app.get("/api/v1/restaurants/:id", async (req, res) => {
   console.log(`giving only one restaurant`);
   console.log(`requested id is:`, req.params.id);
 
   //db query
   try {
-    const result = await db.query(`SELECT * FROM restaurants WHERE id = $1`, [
-      req.params.id,
-    ]);
-    console.log(result);
-    console.log(result.rows[0]);
+    const restaurantResult = await db.query(
+      `SELECT * FROM restaurants WHERE id = $1`,
+      [req.params.id]
+    );
+    // console.log(restaurantResult);
+    console.log(restaurantResult.rows[0]);
+
+    const reviewsResult = await db.query(
+      `SELECT * FROM reviews WHERE restaurant_id = $1`,
+      [req.params.id]
+    );
+    console.log(reviewsResult);
 
     res.status(200).json({
       status: "success",
       data: {
-        restaurant: result.rows[0],
+        restaurant: restaurantResult.rows[0],
+        reviews: reviewsResult.rows,
       },
     });
   } catch (error) {

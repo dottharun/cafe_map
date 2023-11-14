@@ -33,7 +33,7 @@ app.get("/api/v1/restaurants", async (req, res) => {
       },
     });
   } catch (err) {
-    console.log(`get all restaurants db query failed with error:`, err);
+    console.error(`get all restaurants db query failed with error:`, err);
   }
 });
 
@@ -55,7 +55,7 @@ app.get("/api/v1/restaurants/:id", async (req, res) => {
       `SELECT * FROM reviews WHERE restaurant_id = $1`,
       [req.params.id]
     );
-    console.log(reviewsResult);
+    console.log(reviewsResult.rows);
 
     res.status(200).json({
       status: "success",
@@ -65,7 +65,7 @@ app.get("/api/v1/restaurants/:id", async (req, res) => {
       },
     });
   } catch (error) {
-    console.log(`get a restaurant db query err:`, error);
+    console.error(`get a restaurant db query err:`, error);
   }
 });
 
@@ -92,7 +92,7 @@ app.post("/api/v1/restaurants", async (req, res) => {
       },
     });
   } catch (error) {
-    console.log(`create a restaurant db query failed with error:`, error);
+    console.error(`create a restaurant db query failed with error:`, error);
   }
 });
 
@@ -110,7 +110,6 @@ app.put("/api/v1/restaurants/:id", async (req, res) => {
       [req.body.name, req.body.location, req.body.price_range, req.params.id]
     );
 
-    console.log(results);
     console.log(results.rows[0]);
 
     res.status(200).json({
@@ -120,7 +119,7 @@ app.put("/api/v1/restaurants/:id", async (req, res) => {
       },
     });
   } catch (error) {
-    console.log(`update restaurant failed with:`, error);
+    console.error(`update restaurant failed with:`, error);
   }
 });
 
@@ -135,7 +134,6 @@ app.delete("/api/v1/restaurants/:id", async (req, res) => {
       [req.params.id]
     );
 
-    console.log(results);
     console.log(results.rows[0]);
 
     res.status(204).json({
@@ -145,7 +143,7 @@ app.delete("/api/v1/restaurants/:id", async (req, res) => {
       },
     });
   } catch (error) {
-    console.log(`deleting an restaurant failed`, error);
+    console.error(`deleting an restaurant failed`, error);
   }
 });
 
@@ -169,7 +167,7 @@ app.post("/api/v1/restaurants/:id/addreview", async (req, res) => {
       },
     });
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 });
 

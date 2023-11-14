@@ -8,18 +8,15 @@ const AddRestaurant = () => {
 
   const [name, setName] = useState("");
   const [location, setLocation] = useState("");
-  const [priceRange, setPriceRange] = useState("price range");
+  const [priceRange, setPriceRange] = useState(0);
 
   const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
     //hack for empty string cases
-    if (
-      name.trim() === "" ||
-      location.trim() === "" ||
-      priceRange === "price range"
-    )
+    if (name.trim() === "" || location.trim() === "" || priceRange === 0) {
       return;
+    }
 
     // console.log(`clicked`);
 
@@ -65,14 +62,16 @@ const AddRestaurant = () => {
       <select
         className="m-1 p-1"
         value={priceRange}
-        onChange={(e) => setPriceRange(e.target.value)}
+        onChange={(e) => setPriceRange(parseInt(e.target.value))}
       >
-        <option disabled>price range</option>
-        <option value="1">$</option>
-        <option value="2">$$</option>
-        <option value="3">$$$</option>
-        <option value="4">$$$$</option>
-        <option value="5">$$$$$</option>
+        <option value={0} disabled>
+          price range
+        </option>
+        <option value={1}>$</option>
+        <option value={2}>$$</option>
+        <option value={3}>$$$</option>
+        <option value={4}>$$$$</option>
+        <option value={5}>$$$$$</option>
       </select>
       <button onClick={handleSubmit} className="m-1 p-1">
         Add

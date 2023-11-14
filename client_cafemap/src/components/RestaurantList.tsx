@@ -31,7 +31,7 @@ const RestaurantList = () => {
 
         setRestaurants(parsedRestaurants);
       } catch (err) {
-        console.log("use effect error in fetch call", err);
+        console.error("use effect error in fetch call", err);
       }
     };
 
@@ -41,33 +41,28 @@ const RestaurantList = () => {
   //deleting a restaurant
   const handleDelete = async (
     e: React.MouseEvent<HTMLButtonElement>,
-    restaurantId: number
+    id: number
   ) => {
     e.stopPropagation();
 
     try {
-      const response = await RestaurantFinder.delete(`/${restaurantId}`);
+      const response = await RestaurantFinder.delete(`/${id}`);
       console.log(response);
 
-      setRestaurants(
-        restaurants.filter((restaurant) => restaurant.id !== restaurantId)
-      );
+      setRestaurants(restaurants.filter((restaurant) => restaurant.id !== id));
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   };
 
-  const handleUpdate = (
-    e: React.MouseEvent<HTMLButtonElement>,
-    restaurantId: number
-  ) => {
+  const handleUpdate = (e: React.MouseEvent<HTMLButtonElement>, id: number) => {
     e.stopPropagation();
 
-    navigate(`/restaurants/${restaurantId}/update`);
+    navigate(`/restaurants/${id}/update`);
   };
 
-  const handleRestaurantSelect = (restaurantId: number) => {
-    navigate(`/restaurants/${restaurantId}`);
+  const handleRestaurantSelect = (id: number) => {
+    navigate(`/restaurants/${id}`);
   };
 
   return (

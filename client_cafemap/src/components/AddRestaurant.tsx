@@ -5,6 +5,7 @@ import RestaurantSchema from "../types/RestaurantSchema";
 
 const AddRestaurant = () => {
   const { addRestaurant } = useContext(RestaurantsContext);
+
   const [name, setName] = useState("");
   const [location, setLocation] = useState("");
   const [priceRange, setPriceRange] = useState("price range");
@@ -13,7 +14,12 @@ const AddRestaurant = () => {
     e.preventDefault();
 
     //hack for empty string cases
-    if (name.trim() === "" || location.trim() === "") return;
+    if (
+      name.trim() === "" ||
+      location.trim() === "" ||
+      priceRange === "price range"
+    )
+      return;
 
     // console.log(`clicked`);
 
@@ -36,7 +42,7 @@ const AddRestaurant = () => {
 
       console.log(`added restaurant to db and ui`);
     } catch (error) {
-      console.log(`error in adding a restaurant`, error);
+      console.error(`error in adding a restaurant`, error);
     }
   };
 

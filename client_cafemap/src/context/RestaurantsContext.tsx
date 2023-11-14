@@ -8,7 +8,7 @@ type RestaurantData = {
   reviews: Review[];
 };
 
-type ContextType = {
+type RestaurantsContextType = {
   restaurants: Restaurant[];
   setRestaurants: React.Dispatch<React.SetStateAction<Restaurant[]>>;
   addRestaurant: (newRestaurant: Restaurant) => void;
@@ -18,7 +18,7 @@ type ContextType = {
   >;
 };
 
-const RestaurantsContext = createContext<ContextType>(null!);
+const RestaurantsContext = createContext<RestaurantsContextType>(null!);
 
 const RestaurantsContextProvider = (props: { children: JSX.Element }) => {
   const [restaurants, setRestaurants] = useState<Restaurant[]>([]);

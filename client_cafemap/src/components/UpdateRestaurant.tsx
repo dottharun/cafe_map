@@ -23,10 +23,12 @@ const UpdateRestaurant = () => {
       );
 
       console.log(parsedRestaurant);
+
       setName(parsedRestaurant.name);
       setLocation(parsedRestaurant.location);
       setPriceRange(parsedRestaurant.price_range.toString());
     };
+
     fetchData();
   }, [id]);
 
@@ -53,7 +55,7 @@ const UpdateRestaurant = () => {
       console.log(`restaurant updated`);
       navigate(`/`);
     } catch (error) {
-      console.log(`error in adding a restaurant`, error);
+      console.error(`error in adding a restaurant`, error);
     }
   };
 

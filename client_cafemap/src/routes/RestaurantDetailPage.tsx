@@ -8,6 +8,7 @@ import RestaurantDataSchema from "../types/RestaurantData";
 
 const RestaurantDetailPage = () => {
   const { id } = useParams();
+
   const { selectedRestaurantData, setSelectedRestaurantData } =
     useContext(RestaurantsContext);
 
@@ -23,7 +24,7 @@ const RestaurantDetailPage = () => {
 
         setSelectedRestaurantData(ParsedRestaurantData);
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     };
 
@@ -32,15 +33,15 @@ const RestaurantDetailPage = () => {
 
   return (
     <>
-      {selectedRestaurantData && (
-        <div className="p-4">
-          <h1 className="flex justify-center pb-4">
+      {selectedRestaurantData ? (
+        <>
+          <h1 className="flex justify-center">
             {selectedRestaurantData.restaurant.name}
           </h1>
           <Reviews reviews={selectedRestaurantData.reviews} />
-          <AddReviewForm />
-        </div>
-      )}
+        </>
+      ) : null}
+      <AddReviewForm />
     </>
   );
 };

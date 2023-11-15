@@ -6,6 +6,8 @@ const pool = new Pool();
 // //for making BIGSERIAL in pg to BIGINT in node
 // //if didnt work will get string for bigserial(64 bit numbers)
 types.setTypeParser(20, (val) => parseInt(val));
+// for floating point types
+types.setTypeParser(1700, (val) => parseFloat(val));
 
 //HACK types are just my guess
 const query = (text: string, params?: string[]) => pool.query(text, params);

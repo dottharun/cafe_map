@@ -13,14 +13,26 @@ app.use(express.json());
 
 //Routes
 
-//Get all Restaurants
+//Get all Restaurants with each of their review data
 app.get("/api/v1/restaurants", async (req, res) => {
   console.log(`giving all restaurants`);
   console.log(`unused var`, typeof req);
 
   //db query
   try {
-    const results = await db.query(`SELECT * FROM restaurants`);
+    //this is the tutor's method
+    //I'm thinking to add a new field with average rating, total review count
+    //in the restaurants table with some function to update it while adding reviews
+    const results = await db.query(`--sql
+      SELECT restaurants.*, reviews.rating_count, reviews.average_rating
+      FROM restaurants
+      LEFT JOIN (
+          SELECT restaurant_id, COUNT(*) as rating_count, TRUNC(AVG(rating), 1) as average_rating
+          FROM reviews
+          GROUP BY restaurant_id
+      ) reviews on restaurants.id = reviews.restaurant_id;
+    `);
+
     console.log(`Success got all restaurants`);
     // console.log(results);
     console.log(typeof results.rows[0].id);
@@ -37,7 +49,7 @@ app.get("/api/v1/restaurants", async (req, res) => {
   }
 });
 
-//get an individual Restaurant and its reviews
+//get an individual Restaurant with its reviewData and all of its reviews
 app.get("/api/v1/restaurants/:id", async (req, res) => {
   console.log(`giving only one restaurant`);
   console.log(`requested id is:`, req.params.id);
@@ -45,7 +57,16 @@ app.get("/api/v1/restaurants/:id", async (req, res) => {
   //db query
   try {
     const restaurantResult = await db.query(
-      `SELECT * FROM restaurants WHERE id = $1`,
+      `--sql
+    SELECT
+        restaurants.*,
+        COUNT(*) AS rating_count,
+        TRUNC(AVG(reviews.rating), 1) AS average_rating
+    FROM restaurants
+    LEFT JOIN reviews ON restaurants.id = reviews.restaurant_id
+    WHERE restaurants.id = $1
+    GROUP BY restaurants.id;
+    `,
       [req.params.id]
     );
     // console.log(restaurantResult);
@@ -129,6 +150,15 @@ app.delete("/api/v1/restaurants/:id", async (req, res) => {
 
   //db query
   try {
+    //remove all reviews
+    const revResults = await db.query(
+      `DELETE FROM reviews WHERE restaurant_id = $1 RETURNING *`,
+      [req.params.id]
+    );
+
+    console.log(revResults);
+
+    //remove the restaurant
     const results = await db.query(
       `DELETE FROM restaurants WHERE id = $1 RETURNING *`,
       [req.params.id]

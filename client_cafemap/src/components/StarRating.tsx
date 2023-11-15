@@ -9,6 +9,7 @@ type ratingProp = {
 };
 
 const StarRating = ({ rating }: ratingProp) => {
+
   const stars = [];
   for (let i = 1; i <= 5; i++) {
     if (i <= rating) {
@@ -19,7 +20,12 @@ const StarRating = ({ rating }: ratingProp) => {
       stars.push(<TiStarOutline key={i} />);
     }
   }
-  return <div className="border flex w-fit">{stars}</div>;
+
+  return (
+    <div className="flex flex-col justify-center">
+      <div className="border flex h-fit w-fit ">{stars}</div>
+    </div>
+  );
 };
 
 export default StarRating;

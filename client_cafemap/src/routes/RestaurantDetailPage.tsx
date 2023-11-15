@@ -5,6 +5,7 @@ import RestaurantFinder from "../apis/RestaurantFinder";
 import Reviews from "../components/Reviews";
 import AddReviewForm from "../components/AddReviewForm";
 import RestaurantDataSchema from "../types/RestaurantData";
+import StarRating from "../components/StarRating";
 
 const RestaurantDetailPage = () => {
   const { id } = useParams();
@@ -31,6 +32,8 @@ const RestaurantDetailPage = () => {
     fetchData();
   }, [id, setSelectedRestaurantData]);
 
+  console.log(selectedRestaurantData);
+
   return (
     <>
       {selectedRestaurantData ? (
@@ -38,6 +41,20 @@ const RestaurantDetailPage = () => {
           <h1 className="flex justify-center">
             {selectedRestaurantData.restaurant.name}
           </h1>
+          <div className="flex justify-center">
+            {selectedRestaurantData.restaurant.average_rating ? (
+              <>
+                <StarRating
+                  rating={selectedRestaurantData.restaurant.average_rating}
+                />
+                <p className="pl-1">
+                  {"(" + selectedRestaurantData.restaurant.rating_count + ")"}
+                </p>
+              </>
+            ) : (
+              <p>No ratings🌱</p>
+            )}
+          </div>
           <Reviews reviews={selectedRestaurantData.reviews} />
         </>
       ) : null}

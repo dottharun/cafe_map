@@ -1,15 +1,16 @@
 import { useContext, useState } from "react";
-import RestaurantFinder from "../apis/RestaurantFinder";
 import { useParams } from "react-router-dom";
-import ReviewSchema from "../types/ReviewSchema";
+import RestaurantFinder from "../apis/RestaurantFinder";
 import { RestaurantsContext } from "../context/RestaurantsContext";
+
+import ReviewSchema from "../types/ReviewSchema";
+import RestaurantDataSchema from "../types/RestaurantData";
 
 const AddReviewForm = () => {
   //Current restaurant
   const { id } = useParams();
 
-  const { selectedRestaurantData, setSelectedRestaurantData } =
-    useContext(RestaurantsContext);
+  const { setSelectedRestaurantData } = useContext(RestaurantsContext);
 
   const [name, setName] = useState("");
   const [rating, setRating] = useState(0); //zero => dummy
@@ -25,30 +26,29 @@ const AddReviewForm = () => {
     console.log(`clicked submit review on restaurant id:`, id);
 
     try {
-      const response = await RestaurantFinder.post(`/${id}/addreview`, {
+      const reviewResponse = await RestaurantFinder.post(`/${id}/addreview`, {
         name: name,
         rating: rating,
         review: reviewText,
       });
-      console.log("response is", response);
+      console.log("reviewResponse is", reviewResponse);
 
-      const ParsedNewReview = ReviewSchema.parse(response.data.data.review);
+      const ParsedNewReview = ReviewSchema.parse(
+        reviewResponse.data.data.review
+      );
 
       console.log("Parsed New review is", ParsedNewReview);
 
-      //changing context for SelectedRestaurantData
-      //should add the new review in RestaurantDetailPage
+      //since review is updated the current restaurant is updated too
+      //we can get the review data with current restaurant
+      const ResaturantResponse = await RestaurantFinder.get(`/${id}`);
+      console.log(ResaturantResponse);
 
-      //PROBLEM: that tutor guy says,
-      //this will cause problem when updating average review count
-      //he says do a hack to make it work but this itself works fine
+      const ParsedRestaurantData = RestaurantDataSchema.parse(
+        ResaturantResponse.data.data
+      );
 
-      //Im thinking we will do another get restaurant call to db to get fresh restaurant
-      //To update that too if we need
-      setSelectedRestaurantData({
-        ...selectedRestaurantData,
-        reviews: [...selectedRestaurantData.reviews, ParsedNewReview],
-      });
+      setSelectedRestaurantData(ParsedRestaurantData);
     } catch (error) {
       console.error(error);
     }
@@ -56,7 +56,11 @@ const AddReviewForm = () => {
 
   return (
     <div className="flex justify-center">
-      <form className="flex flex-col justify-center w-1/3" action="">
+      <form
+        className="flex flex-col justify-center w-1/3 border border-pink-300"
+        action=""
+      >
+        <h2 className="flex p-1 text-zinc-500">Write your review below...</h2>
         <div className="flex flex-row justify-between p-2">
           <div className="flex flex-col">
             <label htmlFor="name">Your Name</label>

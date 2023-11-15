@@ -3,6 +3,7 @@ import { RestaurantsContext } from "../context/RestaurantsContext";
 import RestaurantFinder from "../apis/RestaurantFinder";
 import { useNavigate } from "react-router-dom";
 import { RestaurantsArraySchema } from "../types/RestaurantSchema";
+import StarRating from "./StarRating";
 
 const headings = [
   { id: 1, name: "Restaurant" },
@@ -44,6 +45,8 @@ const RestaurantList = () => {
     id: number
   ) => {
     e.stopPropagation();
+
+    console.log("delete btn clicked");
 
     try {
       const response = await RestaurantFinder.delete(`/${id}`);
@@ -87,16 +90,29 @@ const RestaurantList = () => {
                   key={restaurant.id}
                   onClick={() => handleRestaurantSelect(restaurant.id)}
                 >
-                  <td>{restaurant.name}</td>
-                  <td>{restaurant.location}</td>
-                  <td>{"$".repeat(restaurant.price_range)}</td>
-                  <td>ratings</td>
-                  <td>
+                  <td className="text-center">{restaurant.name}</td>
+                  <td className="text-center">{restaurant.location}</td>
+                  <td className="text-center">
+                    {"$".repeat(restaurant.price_range)}
+                  </td>
+                  <td className="text-center flex justify-center">
+                    {restaurant.average_rating ? (
+                      <>
+                        <StarRating rating={restaurant.average_rating} />
+                        <p className="pl-1">
+                          {"(" + restaurant.rating_count + ")"}
+                        </p>
+                      </>
+                    ) : (
+                      <p className="">No ratings🌱</p>
+                    )}
+                  </td>
+                  <td className="text-center">
                     <button onClick={(e) => handleUpdate(e, restaurant.id)}>
                       Update
                     </button>
                   </td>
-                  <td>
+                  <td className="text-center">
                     <button onClick={(e) => handleDelete(e, restaurant.id)}>
                       Delete
                     </button>

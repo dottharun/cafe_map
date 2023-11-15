@@ -1,15 +1,16 @@
 import "dotenv/config";
 import express from "express";
+import morgan from "morgan";
 import * as db from "./db";
 import cors from "cors";
-
-// import morgan from "morgan";
+import { isClean } from "./sanitization/sanitize";
 
 const app = express();
 
 //Middleware
 app.use(cors());
 app.use(express.json());
+app.use(morgan("tiny"));
 
 //Routes
 
@@ -95,6 +96,11 @@ app.post("/api/v1/restaurants", async (req, res) => {
   console.log(`creating a restaurant in our db`);
   console.log(`requested body:`, req.body); //body will only exist if there is a express.json() middleware
 
+  if (!isClean(req.body.name) || !isClean(req.body.location)) {
+    console.log(`sanitized`, req.body);
+    return;
+  }
+
   //db query
   try {
     const result = await db.query(
@@ -122,6 +128,11 @@ app.put("/api/v1/restaurants/:id", async (req, res) => {
   console.log(`updating the given restaurant`, typeof res);
   console.log(req.params.id);
   console.log(req.body);
+
+  if (!isClean(req.body.name) || !isClean(req.body.location)) {
+    console.log(`sanitized`, req.body);
+    return;
+  }
 
   //db query
   try {
@@ -180,6 +191,11 @@ app.delete("/api/v1/restaurants/:id", async (req, res) => {
 //create a new review
 app.post("/api/v1/restaurants/:id/addreview", async (req, res) => {
   console.log("adding a review", typeof req, typeof res);
+
+  if (!isClean(req.body.name) || !isClean(req.body.review)) {
+    console.log(`sanitized`, req.body);
+    return;
+  }
 
   //db query
   try {

@@ -49,6 +49,10 @@ const AddReviewForm = () => {
       );
 
       setSelectedRestaurantData(ParsedRestaurantData);
+
+      setName("");
+      setRating(0);
+      setReviewText("");
     } catch (error) {
       console.error(error);
     }

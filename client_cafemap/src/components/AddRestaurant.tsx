@@ -37,6 +37,10 @@ const AddRestaurant = () => {
 
       addRestaurant(ParsedRestaurant);
 
+      setName("");
+      setLocation("");
+      setPriceRange(0);
+
       console.log(`added restaurant to db and ui`);
     } catch (error) {
       console.error(`error in adding a restaurant`, error);

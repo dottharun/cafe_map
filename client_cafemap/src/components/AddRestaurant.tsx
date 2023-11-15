@@ -18,8 +18,6 @@ const AddRestaurant = () => {
       return;
     }
 
-    // console.log(`clicked`);
-
     try {
       const response = await RestaurantFinder.post("/", {
         name: name,
@@ -48,39 +46,44 @@ const AddRestaurant = () => {
   };
 
   return (
-    <form className="mb-5 flex justify-center flex-row">
-      <input
-        className="m-1 p-1"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        type="text"
-        placeholder="name"
-      />
-      <input
-        className="m-1 p-1"
-        value={location}
-        onChange={(e) => setLocation(e.target.value)}
-        type="text"
-        placeholder="location"
-      />
-      <select
-        className="m-1 p-1"
-        value={priceRange}
-        onChange={(e) => setPriceRange(parseInt(e.target.value))}
-      >
-        <option value={0} disabled>
-          price range
-        </option>
-        <option value={1}>$</option>
-        <option value={2}>$$</option>
-        <option value={3}>$$$</option>
-        <option value={4}>$$$$</option>
-        <option value={5}>$$$$$</option>
-      </select>
-      <button onClick={handleSubmit} className="m-1 p-1">
-        Add
-      </button>
-    </form>
+    <div className="flex justify-center m-10">
+      <div className="p-2 m-2 bg-blue-500 rounded-xl shadow-xl">
+        <p className="text-gray-300">Add a new Restaurant</p>
+        <form className="flex justify-center flex-row">
+          <input
+            className="m-1 p-1"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            type="text"
+            placeholder="Restaurant Name"
+          />
+          <input
+            className="m-1 p-1"
+            value={location}
+            onChange={(e) => setLocation(e.target.value)}
+            type="text"
+            placeholder="location"
+          />
+          <select
+            className="m-1 p-1"
+            value={priceRange}
+            onChange={(e) => setPriceRange(parseInt(e.target.value))}
+          >
+            <option value={0} disabled>
+              price range
+            </option>
+            <option value={1}>$</option>
+            <option value={2}>$$</option>
+            <option value={3}>$$$</option>
+            <option value={4}>$$$$</option>
+            <option value={5}>$$$$$</option>
+          </select>
+          <button onClick={handleSubmit} className="m-1 p-1">
+            Submit
+          </button>
+        </form>
+      </div>
+    </div>
   );
 };
 

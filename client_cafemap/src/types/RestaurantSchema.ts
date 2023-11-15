@@ -11,7 +11,7 @@ const RestaurantSchema = z.object({
     z.literal(4),
     z.literal(5),
   ]),
-  rating_count: z.optional(z.union([z.number().min(0).max(5), z.null()])),
+  rating_count: z.optional(z.union([z.number(), z.null()])),
   average_rating: z.optional(z.union([z.number().min(0).max(5), z.null()])),
 });
 

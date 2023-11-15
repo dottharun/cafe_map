@@ -64,7 +64,7 @@ const AddReviewForm = () => {
         className="flex flex-col justify-center w-1/3 border border-pink-300"
         action=""
       >
-        <h2 className="flex p-1 text-zinc-500">Write your review below...</h2>
+        <h2 className="flex p-1 text-zinc-500">Write a review</h2>
         <div className="flex flex-row justify-between p-2">
           <div className="flex flex-col">
             <label htmlFor="name">Your Name</label>
@@ -101,7 +101,7 @@ const AddReviewForm = () => {
             value={reviewText}
             onChange={(e) => setReviewText(e.target.value)}
             id="review"
-            placeholder="Write your review here..."
+            placeholder="here..."
           />
         </div>
         <div className="flex justify-center">

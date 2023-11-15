@@ -1,10 +1,10 @@
 const Header = () => {
   return (
     <>
-      <div className="flex justify-center p-4 pb-10">
+      <div className="flex justify-center p-4">
         <div className="">
-          <h1 className="font-mono italic pb-2">Restaurant Finder</h1>
-          <p className="text-xs">Write your experiences below 🌺</p>
+          <h1 className="font-mono italic pb-2">Restaurants Finder</h1>
+          <p className="text-xs">Share your experiences 🌺</p>
         </div>
       </div>
     </>

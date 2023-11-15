@@ -1,5 +1,5 @@
 import { useContext, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { RestaurantsContext } from "../context/RestaurantsContext";
 import RestaurantFinder from "../apis/RestaurantFinder";
 import Reviews from "../components/Reviews";
@@ -9,6 +9,8 @@ import StarRating from "../components/StarRating";
 
 const RestaurantDetailPage = () => {
   const { id } = useParams();
+
+  const navigate = useNavigate();
 
   const { selectedRestaurantData, setSelectedRestaurantData } =
     useContext(RestaurantsContext);
@@ -34,8 +36,16 @@ const RestaurantDetailPage = () => {
 
   console.log(selectedRestaurantData);
 
+  const handleHome = () => {
+    navigate(`/`);
+  };
+
   return (
     <>
+      <div className="flex justify-center">
+        <button onClick={handleHome}>Home</button>
+      </div>
+
       {selectedRestaurantData ? (
         <>
           <h1 className="flex justify-center">
@@ -58,6 +68,7 @@ const RestaurantDetailPage = () => {
           <Reviews reviews={selectedRestaurantData.reviews} />
         </>
       ) : null}
+
       <AddReviewForm />
     </>
   );

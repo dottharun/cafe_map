@@ -217,6 +217,14 @@ app.post("/api/v1/restaurants/:id/addreview", async (req, res) => {
   }
 });
 
+
+//test api
+app.get("/", (req, res)=>{
+  console.log(`checking get request`, typeof req);
+
+  res.status(200).json({});
+})
+
 //starting server to listen
 const port = process.env.PORT || 3001;
 app.listen(port, () => {

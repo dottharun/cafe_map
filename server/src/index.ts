@@ -34,9 +34,9 @@ app.get("/api/v1/restaurants", async (req, res) => {
       ) reviews on restaurants.id = reviews.restaurant_id;
     `);
 
-    console.log(`Success got all restaurants`);
+    // console.log(`Success got all restaurants`);
     // console.log(results);
-    console.log(typeof results.rows[0].id);
+    // console.log(typeof results.rows[0].id);
 
     res.status(200).json({
       status: "success",
@@ -70,14 +70,15 @@ app.get("/api/v1/restaurants/:id", async (req, res) => {
     `,
       [req.params.id]
     );
+
     // console.log(restaurantResult);
-    console.log(restaurantResult.rows[0]);
+    // console.log(restaurantResult.rows[0]);
 
     const reviewsResult = await db.query(
       `SELECT * FROM reviews WHERE restaurant_id = $1`,
       [req.params.id]
     );
-    console.log(reviewsResult.rows);
+    // console.log(reviewsResult.rows);
 
     res.status(200).json({
       status: "success",
@@ -110,7 +111,7 @@ app.post("/api/v1/restaurants", async (req, res) => {
     );
     //only one restaurant is returned above no need to worry (as an array)
 
-    console.log(result.rows[0]);
+    // console.log(result.rows[0]);
 
     res.status(201).json({
       status: "success",
@@ -142,7 +143,7 @@ app.put("/api/v1/restaurants/:id", async (req, res) => {
       [req.body.name, req.body.location, req.body.price_range, req.params.id]
     );
 
-    console.log(results.rows[0]);
+    // console.log(results.rows[0]);
 
     res.status(200).json({
       status: "success",
@@ -167,7 +168,7 @@ app.delete("/api/v1/restaurants/:id", async (req, res) => {
       [req.params.id]
     );
 
-    console.log(revResults);
+    console.log(typeof revResults);
 
     //remove the restaurant
     const results = await db.query(
@@ -175,7 +176,7 @@ app.delete("/api/v1/restaurants/:id", async (req, res) => {
       [req.params.id]
     );
 
-    console.log(results.rows[0]);
+    // console.log(results.rows[0]);
 
     res.status(204).json({
       status: "success",
@@ -204,7 +205,8 @@ app.post("/api/v1/restaurants/:id/addreview", async (req, res) => {
            VALUES ($1, $2, $3, $4) RETURNING *`,
       [req.params.id, req.body.name, req.body.review, req.body.rating]
     );
-    console.log(results.rows[0]);
+
+    // console.log(results.rows[0]);
 
     res.status(201).json({
       status: "success",

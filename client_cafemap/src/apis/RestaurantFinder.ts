@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const RestaurantFinder = axios.create({
-  baseURL: "https://cafemap-server.onrender.com/api/v1/restaurants",
+  baseURL: "http://3.109.59.154:8080/api/v1/restaurants",
 });
 
 export default RestaurantFinder;

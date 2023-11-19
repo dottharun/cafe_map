@@ -12,10 +12,10 @@ const app = express();
 
 //serving frontend
 const staticPath = path.join(process.cwd(), "static");
+app.use(morgan("tiny"));
 app.use(express.static(staticPath));
 app.use(cors());
 app.use(express.json());
-app.use(morgan("tiny"));
 
 //Routes
 

@@ -69,69 +69,67 @@ const RestaurantList = () => {
   };
 
   return (
-    <div className="flex justify-center">
-      <table className="shadow-md">
-        {/* head of the table */}
-        <thead>
-          <tr className="bg-red-700">
-            {headings.map((heading) => (
-              <th key={heading.id} className="h-10 w-32 p-1">
-                {heading.name}
-              </th>
-            ))}
-          </tr>
-        </thead>
+    <table className="shadow-md m-auto w-fit">
+      {/* head of the table */}
+      <thead>
+        <tr className="bg-red-700">
+          {headings.map((heading) => (
+            <th key={heading.id} className="h-10 w-32 p-1">
+              {heading.name}
+            </th>
+          ))}
+        </tr>
+      </thead>
 
-        {/* body of the table */}
-        <tbody className="bg-slate-500">
-          {restaurants
-            ? restaurants.map((restaurant) => (
-                <tr
-                  className="h-16"
-                  key={restaurant.id}
-                  onClick={() => handleRestaurantSelect(restaurant.id)}
-                >
-                  <td className="text-center">{restaurant.name}</td>
-                  <td className="text-center">{restaurant.location}</td>
-                  <td className="text-center">
-                    {"$".repeat(restaurant.price_range)}
-                  </td>
-                  <td className="text-center">
-                    {restaurant.average_rating ? (
-                      <div className="flex flex-col justify-center">
-                        <div className="flex flex-row">
-                          <StarRating rating={restaurant.average_rating} />
-                          <p className="pl-1">
-                            {"(" + restaurant.rating_count + ")"}
-                          </p>
-                        </div>
+      {/* body of the table */}
+      <tbody className="bg-slate-500">
+        {restaurants
+          ? restaurants.map((restaurant) => (
+              <tr
+                className="h-16"
+                key={restaurant.id}
+                onClick={() => handleRestaurantSelect(restaurant.id)}
+              >
+                <td className="text-center">{restaurant.name}</td>
+                <td className="text-center">{restaurant.location}</td>
+                <td className="text-center">
+                  {"$".repeat(restaurant.price_range)}
+                </td>
+                <td className="text-center">
+                  {restaurant.average_rating ? (
+                    <div className="flex flex-row justify-center">
+                      <div className="flex flex-row m-auto">
+                        <StarRating rating={restaurant.average_rating} />
+                        <p className="ml-1">
+                          {"(" + restaurant.rating_count + ")"}
+                        </p>
                       </div>
-                    ) : (
-                      <p className="">No ratings🌱</p>
-                    )}
-                  </td>
-                  <td className="text-center">
-                    <button
-                      className="p-1 shadow-md"
-                      onClick={(e) => handleUpdate(e, restaurant.id)}
-                    >
-                      Update
-                    </button>
-                  </td>
-                  <td className="text-center">
-                    <button
-                      className="p-1 shadow-md"
-                      onClick={(e) => handleDelete(e, restaurant.id)}
-                    >
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-              ))
-            : null}
-        </tbody>
-      </table>
-    </div>
+                    </div>
+                  ) : (
+                    <p className="">No ratings🌱</p>
+                  )}
+                </td>
+                <td className="text-center">
+                  <button
+                    className="p-1 shadow-md"
+                    onClick={(e) => handleUpdate(e, restaurant.id)}
+                  >
+                    Update
+                  </button>
+                </td>
+                <td className="text-center">
+                  <button
+                    className="p-1 shadow-md"
+                    onClick={(e) => handleDelete(e, restaurant.id)}
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))
+          : null}
+      </tbody>
+    </table>
   );
 };
 

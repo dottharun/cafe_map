@@ -23,7 +23,7 @@ const StarRating = ({ rating }: ratingProp) => {
 
   return (
     <div className="flex flex-col justify-center">
-      <div className="border flex h-fit w-fit ">{stars}</div>
+      <div className="border flex h-fit w-fit">{stars}</div>
     </div>
   );
 };

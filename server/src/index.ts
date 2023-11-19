@@ -11,8 +11,8 @@ const app = express();
 //Middleware
 
 //serving frontend
-const FrontendPath = path.join("..", "client_cafemap", "dist");
-app.use(express.static(FrontendPath));
+const staticPath = path.join(process.cwd(), "static");
+app.use(express.static(staticPath));
 app.use(cors());
 app.use(express.json());
 app.use(morgan("tiny"));
@@ -227,7 +227,7 @@ app.post("/api/v1/restaurants/:id/addreview", async (req, res) => {
 app.get("/", (req, res) => {
   console.log(`frontend serve`, typeof req);
 
-  res.sendFile("index.html", { root: FrontendPath });
+  res.sendFile("index.html", { root: staticPath });
 });
 
 //test api

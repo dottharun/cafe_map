@@ -1,0 +1,14 @@
+{
+  "name": "cafe_map",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build-all": "cd client_cafemap && pnpm run build && cd ../server && pnpm run build",
+    "start-server": "cd server && pnpm run start",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

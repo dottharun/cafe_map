@@ -4,10 +4,15 @@ import morgan from "morgan";
 import * as db from "./db";
 import cors from "cors";
 import { isClean } from "./sanitization/sanitize";
+import path from "path";
 
 const app = express();
 
 //Middleware
+
+//serving frontend
+const FrontendPath = path.join("..", "client_cafemap", "dist");
+app.use(express.static(FrontendPath));
 app.use(cors());
 app.use(express.json());
 app.use(morgan("tiny"));
@@ -219,9 +224,15 @@ app.post("/api/v1/restaurants/:id/addreview", async (req, res) => {
   }
 });
 
-//test api
 app.get("/", (req, res) => {
-  console.log(`checking get request`, typeof req);
+  console.log(`frontend serve`, typeof req);
+
+  res.sendFile("index.html", { root: FrontendPath });
+});
+
+//test api
+app.get("/test", (req, res) => {
+  console.log(`test request`, typeof req);
 
   res.status(200).json({});
 });
